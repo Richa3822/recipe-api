@@ -1,19 +1,64 @@
-# 🍳 Recipe Book API
+## ⚙️ Getting Started
 
-A production-grade RESTful API built with **Go**, featuring JWT authentication, PostgreSQL, clean architecture, and Docker support.
+### Prerequisites
+- Docker
+- Docker Compose
 
-## 🚀 Tech Stack
+### Run with Docker
 
-| Layer | Technology |
-|---|---|
-| Language | Go 1.25 |
-| Framework | Gin |
-| Database | PostgreSQL 15 |
-| ORM | GORM |
-| Auth | JWT (golang-jwt/jwt) |
-| Password Hashing | bcrypt |
-| Containerization | Docker + Docker Compose |
+```bash
+# Clone the repo
+git clone https://github.com/Richa3822/recipe-api.git
+cd recipe-api
 
-## 🏗️ Architecture
+# Start everything
+docker-compose up --build
+```
 
-Clean 3-layer architecture — each layer only knows about the layer below it:
+API is now running at `http://localhost:8080`
+
+### Run locally (without Docker)
+
+```bash
+# Make sure PostgreSQL is running, then:
+go mod download
+cd cmd
+go run main.go
+```
+
+## 🔑 Environment Variables
+
+Create a `.env` file in the root:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=password
+DB_NAME=recipedb
+JWT_SECRET=your-super-secret-key
+```
+
+## 📡 API Endpoints
+
+### Auth
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| POST | `/api/auth/register` | Register new user | ❌ |
+| POST | `/api/auth/login` | Login, returns JWT token | ❌ |
+
+### Recipes
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| POST | `/api/recipes` | Create a recipe | ✅ |
+| GET | `/api/recipes` | Get all your recipes | ✅ |
+| GET | `/api/recipes?search=pasta` | Search by title or ingredient | ✅ |
+| GET | `/api/recipes?page=2&limit=5` | Paginated results | ✅ |
+| GET | `/api/recipes/:id` | Get recipe by ID | ✅ |
+| PUT | `/api/recipes/:id` | Update your recipe | ✅ |
+| DELETE | `/api/recipes/:id` | Delete your recipe | ✅ |
+
+### Auth Header
+All protected routes require:
